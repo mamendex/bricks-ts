@@ -8,13 +8,6 @@ class Ball {
         y: 0
     }
 
-    public direction = {
-        left: false,
-        right: false,
-        up: false,
-        down: false
-    }
-
     currentVeloc = {
         x: 0,
         y: 0 
