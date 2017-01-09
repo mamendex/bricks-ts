@@ -183,21 +183,33 @@ class Game extends GameAbstract {
         // colisao com player1?
         if (this.ball.colisionWith(this.player)) {
             console.log("Hit!");
-            if (this.controls.beingPressed.upArrow) { // se o jogador estiver indo para cima quando tocar na bola...
+            // hitting player lateral: adjust vertical position of ball to consider hit on surface
+            if ( this.ball.pos.y > this.player.pos.y ) {
+                console.log("adjusting ball vertical position");
+                this.ball.pos.y = this.player.pos.y - this.ball.radius;
+            }
+            if (this.controls.beingPressed.upArrow) {
+                // strike moving to the left
                 this.ball.strikeLeft();
             } else if (this.controls.beingPressed.downArrow) {
+                // strike moving to the right
                 this.ball.strikeRight();
-            } else { // se o jogador estiver indo para baixo quando tocar na bola...
+            } else {
+                // neutral strike
                 this.ball.strike();
             }
             // edges of field
-        } else if (this.ball.pos.x < this.ball.radius) {
+        } else if (this.ball.pos.x <= this.ball.radius) {
+            // adjust ball pos.x if necessary
+            this.ball.pos.x = this.ball.radius+1;
             this.ball.bounceHorizontal(); // left edge
-        } else if (this.ball.pos.x > this.canvas.width) {
+        } else if (this.ball.pos.x >= this.canvas.width) {
+            this.ball.pos.x = this.canvas.width-this.ball.radius-1;
             this.ball.bounceHorizontal(); // right edge
-        } else if (this.ball.pos.y - this.ball.radius <= 0) {
+        } else if (this.ball.pos.y <= this.ball.radius ) {
+            this.ball.pos.y = this.ball.radius+1;
             this.ball.bounceVertical(); // top edge
-        } else if (this.ball.pos.y + this.ball.radius > this.canvas.height) {
+        } else if (this.ball.pos.y + this.ball.radius >= this.canvas.height) {
             // bottom edge, loose ball
             this.goal();
         }
@@ -227,7 +239,7 @@ class Game extends GameAbstract {
     kickoff() {
         this.ball.pos.x = this.canvas.width / 2; // posiciona a bola no meio da tela
         this.ball.pos.y = this.canvas.height / 2; // posiciona a bola no meio da tela
-        this.ball.angle = Math.PI * (Math.random() * 0.5 - 1); // faz a bola ir para uma direção aleatória
+        this.ball.angle = Math.PI + (Math.random() * 0.2 - 0.1); // faz a bola ir para uma direção aleatória
     }
 
 
