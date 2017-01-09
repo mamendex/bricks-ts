@@ -1,0 +1,21 @@
+
+{
+    "compilerOptions": {
+        "module": "amd",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "outFile": "app.js",
+        //"outDir": "./tmp",
+        "sourceMap": true
+    },
+    "include": [
+        "src/**/*",
+        "node_modules/@types"
+    ],
+    "exclude": [
+        "node_modules",
+        "tmp",
+        "**/*.spec.ts"
+    ]
+}
